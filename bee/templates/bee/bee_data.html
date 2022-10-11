@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{%block extra_css%}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+{%endblock extra_css %}
+
+{% block extra_content %}
+<div class="mx-4 px-4">
+    <div class="">
+        <div class="row mx-lg-n5">
+            <div class="col-4 py-3 px-lg-5 border bg-light" >
+                <input type="text" id="jstree_example_q" value="" class="input " style="margin:1em 1em 1em auto; display:block; padding:4px; border-radius:4px; border:1px solid silver;" />
+                <div id="jstree_example">Tree</div>
+            </div>
+
+            <div class="col-8 py-3 px-lg-5 border bg-light">
+                <div id="bmap" class="bmap"  style="width: 750px;height:500px;"><p>地图</p></div>
+
+                <div class='py-4'>
+                    <table class="table" id="datatable-sample"  width="100%">
+                    <thead id="main-header">
+                        <tr>
+                            {% for field in sample_demo %}
+                                {% if field != 'id'%}
+                                <th >{{field}}</th>
+                                {%endif%}
+                            {%endfor%}
+                        </tr>
+                    </thead>
+                    <tfoot id='main-footer'>
+                        <tr>
+                            {% for field in sample_demo %}
+                                    {% if field != 'id'%}
+                                    <th >{{field}}</th>
+                                    {%endif%}
+                            {%endfor%}
+                        </tr>
+                    </tfoot>
+                    </table>
+                </div>
+
+                <div class='chart bar-chart'>
+                    <div class="row">
+                        <div id='gut_store_bar' data-chart='' class='col-6' style="width: 500px;height:200px;" ></div> 
+                        <div id='gut_usage_bar' class='col-6' style="width: 500px;height:200px;" ></div> 
+                    </div>
+                    <div class="row">
+                        <div id='headchest_store_bar' class='col-6' style="width: 500px;height:200px;" ></div> 
+                        <div id='headchest_usage_bar' class='col-6' style="width: 500px;height:200px;" ></div> 
+                    </div>
+                    <div class="row">
+                        <div id='abdomen_store_bar' class='col-6' style="width: 500px;height:200px;" ></div> 
+                        <div id='abdomen_usage_bar' class='col-6' style="width: 500px;height:200px;" ></div> 
+                    </div>
+                    <div class="row">
+                        <div id='leg_store_bar' class='col-6' style="width: 500px;height:200px;" ></div> 
+                        <div id='leg_usage_bar' class='col-6' style="width: 500px;height:200px;" ></div> 
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="my_dataviz"></div>
+
+{% endblock %}
+
+    {%block extra_js%}
+<!-- D3 -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<!-- 百度 -->
+<script src="http://api.map.baidu.com/api?v=2.0&ak=aQHQI6ayhXfuRjIC7A5PCDaN50FZ0zON"></script>
+<!-- echarts -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<!-- 扩展地图插件 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/extension/bmap.min.js"></script>
+
+<!-- jsTree/jQuery -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+  
+ <script src="{% static 'vintage.js' %}"></script>
+
+ <script>
+// 数据从后端直接传到前端，全部转为json模式，所以数据处理全部在前端进行，包括jstree所需要的层级数据
+
+// 数据逻辑为 data => jstree => selected to search all => datatable => filter => 1. map; 2. chart
+// 所以js里有三层包裹，分别是 jstree里包裹datatable，datatable里包裹echart map和 chart
+
+var bee_data = {{data|safe}}
+var clean_data = bee_data.map(val => val.fields)
+// jstree options 
+
+var tree_data = d3.groups(clean_data, d => d.sample_phylum, d => d.sample_class,  d => d.sample_order,
+                                  d => d.sample_order,  d => d.sample_family, d => d.sample_genus,
+                                  d => d.sample_species,  d => d.sample_subspecies, d => d.sample_breed)
+    
+   
+
+
+
+
+</script>
+
+
+{% endblock %}

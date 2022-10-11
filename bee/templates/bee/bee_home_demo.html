@@ -1,0 +1,517 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{%block extra_css%}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+{%endblock extra_css %}
+
+{% block extra_content %}
+<div class="mx-4 px-4">
+    <div class="">
+        <div class="row mx-lg-n5">
+            <div class="col-4 py-3 px-lg-5 border bg-light" >
+                <input type="text" id="jstree_example_q" value="" class="input " style="margin:1em 1em 1em auto; display:block; padding:4px; border-radius:4px; border:1px solid silver;" />
+                <div id="jstree_example">Tree</div>
+            </div>
+
+            <div class="col-8 py-3 px-lg-5 border bg-light">
+                <div id="bmap" class="bmap"  style="width: 750px;height:500px;"><p>地图</p></div>
+
+                <div class='py-4'>
+                    <table class="table" id="datatable-sample"  width="100%">
+                    <thead id="main-header">
+                        <tr>
+                            {% for field in sample_demo %}
+                                {% if field != 'id'%}
+                                <th >{{field}}</th>
+                                {%endif%}
+                            {%endfor%}
+                        </tr>
+                    </thead>
+                    <tfoot id='main-footer'>
+                        <tr>
+                            {% for field in sample_demo %}
+                                    {% if field != 'id'%}
+                                    <th >{{field}}</th>
+                                    {%endif%}
+                            {%endfor%}
+                        </tr>
+                    </tfoot>
+                    </table>
+                </div>
+
+                <div class='chart bar-chart'>
+                    <div class="row">
+                        <div id='gut_store_bar' data-chart='' class='col-6' style="width: 500px;height:200px;" ></div> 
+                        <div id='gut_usage_bar' class='col-6' style="width: 500px;height:200px;" ></div> 
+                    </div>
+                    <div class="row">
+                        <div id='headchest_store_bar' class='col-6' style="width: 500px;height:200px;" ></div> 
+                        <div id='headchest_usage_bar' class='col-6' style="width: 500px;height:200px;" ></div> 
+                    </div>
+                    <div class="row">
+                        <div id='abdomen_store_bar' class='col-6' style="width: 500px;height:200px;" ></div> 
+                        <div id='abdomen_usage_bar' class='col-6' style="width: 500px;height:200px;" ></div> 
+                    </div>
+                    <div class="row">
+                        <div id='leg_store_bar' class='col-6' style="width: 500px;height:200px;" ></div> 
+                        <div id='leg_usage_bar' class='col-6' style="width: 500px;height:200px;" ></div> 
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+    {%block extra_js%}
+<!-- 百度 -->
+<script src="http://api.map.baidu.com/api?v=2.0&ak=aQHQI6ayhXfuRjIC7A5PCDaN50FZ0zON"></script>
+<!-- echarts -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<!-- 扩展地图插件 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/extension/bmap.min.js"></script>
+
+<!-- jsTree/jQuery -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+  
+ <script src="{% static 'vintage.js' %}"></script>
+
+ <script>
+
+// 数据逻辑为 data => jstree => selected to search all => datatable => filter => 1. map; 2. chart
+// 所以js里有三层包裹，分别是 jstree里包裹datatable，datatable里包裹echart map和 chart
+
+// jstree options 
+
+$(function() {
+    $('#jstree_example').jstree({  
+        "plugins" : [ 
+            "search"
+                    ],
+        'core' : {  
+            'data' : {{data|safe}}
+                }    
+    });
+            
+    var to = false;
+    $('#jstree_example_q').keyup(function () {
+        if(to) { clearTimeout(to); }
+        to = setTimeout(function () {
+            var v = $('#jstree_example_q').val();
+            $('#jstree_example').jstree(true).search(v);  // search in jstree
+        }, 250);
+    });
+
+    // jstree event, on changed, 
+    $('#jstree_example').on("changed.jstree", function (e, data) {
+        data_string = data.selected.join('-')    // data selected in jstree
+        url_string = "/sample_json/'" + data_string + "'"  // 注意这里我用''把data_string包括起来了
+        
+        // 这里是第一次包裹，从jstree的data.selected里构建api，获取数据给datatable
+
+        $.get(encodeURI(url_string)).done(function(data) {    // done is important here
+            // datatable for selected_sample
+            selected_sample = JSON.parse(data.selected_sample)
+            console.log(selected_sample)
+            data_selected_sample = selected_sample.map(function(val){
+                return  Object.values( val.fields)     // Object.values is important here
+            })
+            console.log(data_selected_sample)
+
+            // 设置datatable的每一列搜索功能
+            $('#datatable-sample tfoot th').each(function () {
+                var title = $(this).text();
+                $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+            });
+
+            var table = $('#datatable-sample').DataTable()
+            table.destroy()     // this is for redraw datatable
+            
+            var table = $('#datatable-sample').DataTable({
+                "scrollX":true,
+                "autoWidth": false,
+                "retrieve":true,    // this is for redraw datatable
+                "columnDefs": [
+                                { width: "10%", targets: [0,1] },
+                                {orderable: true,},
+                                {defaultContent: "-",targets: "_all"},    // defaultContent is important
+                                ],
+                            
+                "dom":'Bfrtip',
+                "data" : data_selected_sample,
+                "paging": true,
+
+                initComplete: function(){
+                    // 设置datatable的每一列的搜索功能
+                    this.api()
+                    .columns()
+                    .every(function () {
+                        var that = this;
+                        $('input', this.footer()).on('keyup change clear', function () {
+                            if (that.search() !== this.value) {
+                                that.search(this.value).draw();
+                            }
+                        });
+                    });
+                    },
+            });// 这里是datatable定义收尾的地方  
+
+            
+            // 以下是第二层包裹，从datatable里获取筛选后的数据供echart使用
+            
+
+            table.on('search.dt', function() {
+                //number of filtered rows
+                var data_len = table.rows( { filter : 'applied'} ).nodes().length;
+                //filtered rows data as arrays
+                var data_filter = table.rows( { filter : 'applied'} ).data();
+
+                // 以下是echart map
+
+                // 原版是用python处理stat_location     
+                // stat_location = selected_sample.select_related().values('bee_location__exact_site','bee_location__longitude','bee_location__latitude').annotate(count=Count('bee_location')).distinct()
+                // exact_site = models.CharField(_("采集地简要信息"), max_length=250, null=True, blank=True)
+                // latitude = models.FloatField(_("纬度"),null=True, blank=True)
+                // longitude = models.FloatField(_("经度"),null=True, blank=True)
+                // altitude = models.IntegerField(_("海拔"),null=True, blank=True)
+                // 只要根据四个关键词 exact_site，latitude，longitude，altitude 进行计数统计即可
+                // 位于model的9，10，11，12 列；注意引用时减1
+
+                var count_location = (len,arr) => {
+                    var counts = {};
+                    for (var i=0; i < len; i++) {
+                        var str = arr[i][8]+'-'+arr[i][10]+'-'+arr[i][11]+'-'+arr[i][12]
+                        counts[str] = 1 + (counts[str] || 0);
+                    }
+                    var arr = []
+                    var counts_keys = Object.keys(counts);
+                    var counts_values = Object.values(counts);
+                    for (var i=0; i< counts_keys.length;i++){
+                        var str = counts_keys[i].split('-')
+                        var count = counts_values[i]
+                        arr.push({'exact_site':str[0], 'latitude':str[1],'longitude':str[2],'altitude':str[3],'count':count})
+                    }
+                    return arr
+                }
+                var len = table.rows( { filter : 'applied'} ).nodes().length;
+                var dataSet = table.rows( { filter : 'applied'} ).data()
+                var data_stat_location = count_location(len, dataSet)
+   
+    
+                option_baidu = {
+                    title: {
+                      text: '蜜蜂采样分布图',
+                      subtext: 'bee sample distribution',
+                      sublink: '',
+                      left: 'center'
+                    },
+                    tooltip: {
+                      trigger: 'item'
+                    },
+                    bmap: {
+                      center: [114, 25],
+                      zoom: 2,
+                      roam: true,// 允许缩放
+                      mapStyle: {
+                        styleJson: [
+                          {
+                            featureType: 'water',
+                            elementType: 'all',
+                            stylers: {
+                              color: '#d1d1d1',
+                              visibility: "on"
+                            }
+                          },
+                          {
+                            featureType: 'land',
+                            elementType: 'all',
+                            stylers: {
+                              color: '#f3f3f3',
+                              visibility: "on"
+                            }
+                          },
+                          {
+                            featureType: 'green',
+                            elementType: 'all',
+                            stylers: {
+                              visibility: 'on'
+                            }
+                          },
+                          // 边界线
+                          {
+                            featureType: 'boundary',
+                            elementType: 'all',
+                            stylers: {
+                              color: '#fefefe',
+                              visibility: "on"
+                            }
+                          },
+                          // 行政标注
+                          {
+                            featureType: 'label',
+                            elementType: 'all',
+                            stylers: {
+                              visibility: "on"
+                            }
+                          },
+                          {
+                            featureType: 'road',
+                            elementType: 'all',
+                            stylers: {
+                              visibility: "off"
+                            }
+                          },
+
+                        ]
+                      }
+                    },
+                    visualMap: {	// 视觉映射组件
+                        type: 'continuous',
+                        min: Math.min(...values),
+                        max: Math.max(...values),
+                        calculable: true,
+                        inRange: {
+                                 color: ['#50a3ba','#eac736','#d94e5d'],
+                                 symbolSize: [10,30],    // symbolSize is important here
+                          },
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    },
+                    series: [{
+                        name: 'beeSample Count',
+                        type: 'scatter',
+                        coordinateSystem: 'bmap',
+            
+                        // 数据格式跟在 geo 坐标系上一样，每一项都是 [经度，纬度，数值大小，其它维度...]
+                        // data: [ [120, 30, 100] ],
+                        data: data_stat_location.map(function(val){
+                            return {name:val.exact_site, value:[val.longitude, val.latitude, val.count]}
+                        }),   // this is very important
+            
+                        symbolSize: function (val) {
+                          return val[2] / 10;
+                        },
+                        encode: {
+                          value: 2
+                        },
+                        label: {
+                          formatter: '{b}',
+                          position: 'right',
+                          show: false
+                        },
+                        emphasis: {
+                          label: {
+                            show: true
+                          }
+                        }
+                      }]
+                    };
+                
+                var myChart = echarts.init(document.getElementById('bmap'))
+                myChart.setOption(option_baidu);
+                var bmap = myChart.getModel().getComponent('bmap').getBMap(); // baidu地图实例
+                bmap.addControl(new BMap.NavigationControl()); // 缩放控件
+                bmap.addControl(new BMap.ScaleControl()); // 比例尺
+                bmap.addControl(new BMap.MapTypeControl()); // 卫星图
+
+        
+                // 以下是其它 echart chart部分，bar图pie图之类的
+
+                // echarts option
+                var gut_store_bar = echarts.init(document.getElementById('gut_store_bar'),'vintage');
+                var headchest_store_bar = echarts.init(document.getElementById('headchest_store_bar'));
+                var abdomen_store_bar = echarts.init(document.getElementById('abdomen_store_bar'));
+                var leg_store_bar = echarts.init(document.getElementById('leg_store_bar'));
+
+                var gut_usage_bar = echarts.init(document.getElementById('gut_usage_bar'));
+                var headchest_usage_bar = echarts.init(document.getElementById('headchest_usage_bar'));
+                var abdomen_usage_bar = echarts.init(document.getElementById('abdomen_usage_bar'));
+                var leg_usage_bar = echarts.init(document.getElementById('leg_usage_bar'));
+
+                var count_store_usage = (len,arr,j) => {
+                    var counts = {};
+                    for (var i=0; i < len; i++) {
+                        var str = arr[i][j]
+                        counts[str] = 1 + (counts[str] || 0);
+                    }
+                    var arr = []
+                    var counts_keys = Object.keys(counts);
+                    var counts_values = Object.values(counts);
+                    for (var i=0; i< counts_keys.length;i++){
+                        arr.push({'name':counts_keys[i], 'count':counts_values[i]})
+                    }
+                    return arr
+                }
+                var len = table.rows( { filter : 'applied'} ).nodes().length;
+                var dataSet = table.rows( { filter : 'applied'} ).data()
+
+                headchest_store = count_store_usage(len, dataSet,50)
+                headchest_usage = count_store_usage(len, dataSet,51)
+                abdomen_store = count_store_usage(len, dataSet,56)
+                abdomen_usage = count_store_usage(len, dataSet,57)
+                gut_store = count_store_usage(len, dataSet,62)
+                gut_usage = count_store_usage(len, dataSet,63)
+                leg_store = count_store_usage(len, dataSet,68)
+                leg_usage = count_store_usage(len, dataSet,69)
+
+                var option_gut_store_bar = {
+                    title: {
+                      text: 'gut_store'
+                    },
+                    tooltip: {},
+                    xAxis: {
+                      data: gut_store.map((x)=>x.name) 
+                    },
+                    yAxis: {},
+                    series: [
+                      {
+                  
+                        type: 'bar',
+                        data: gut_store.map((x)=>x.count) 
+                      },
+                      
+                    ]
+                  };
+                  var option_gut_usage_bar = {
+                    title: {
+                      text: 'gut_usage'
+                    },
+                    tooltip: {},
+                    xAxis: {
+                      data: gut_usage.map((x)=>x.name) 
+                    },
+                    yAxis: {},
+                    series: [
+                      {
+                        type: 'bar',
+                        data: gut_usage.map((x)=>x.count) 
+                      }
+                    ]
+                  };
+                  
+                  var option_headchest_store_bar = {
+                    title: {
+                      text: 'headchest_store'
+                    },
+                    tooltip: {},
+                    xAxis: {
+                      data: headchest_store.map((x)=>x.name)
+                    },
+                    yAxis: {},
+                    series: [
+                      {
+                  
+                        type: 'bar',
+                        data: headchest_store.map((x)=>x.count)
+                      }
+                    ]
+                  };
+                  
+                  var option_headchest_usage_bar = {
+                    title: {
+                      text: 'headchest_usage'
+                    },
+                    tooltip: {},
+                    xAxis: {
+                      data: headchest_usage.map((x)=>x.name)
+                    },
+                    yAxis: {},
+                    series: [
+                      {
+                        type: 'bar',
+                        data: headchest_usage.map((x)=>x.count)
+                      }
+                    ]
+                  };
+                  
+                  var option_abdomen_store_bar = {
+                    title: {
+                      text: 'abdomen_store'
+                    },
+                    tooltip: {},
+                    xAxis: {
+                      data: abdomen_store.map((x)=>x.name)
+                    },
+                    yAxis: {},
+                    series: [
+                      {
+                        type: 'bar',
+                        data: abdomen_store.map((x)=>x.count)
+                      }
+                    ]
+                  };
+                  
+                  var option_abdomen_usage_bar = {
+                    title: {
+                      text: 'abdomen_usage'
+                    },
+                    tooltip: {},
+                    xAxis: {
+                      data: abdomen_usage.map((x)=>x.name)
+                    },
+                    yAxis: {},
+                    series: [
+                      {
+                        type: 'bar',
+                        data: abdomen_usage.map((x)=>x.count)
+                      }
+                    ]
+                  };
+                  
+                  var option_leg_store_bar = {
+                    title: {
+                      text: 'leg_store'
+                    },
+                    tooltip: {},
+                    xAxis: {
+                      data: leg_store.map((x)=>x.name)
+                    },
+                    yAxis: {},
+                    series: [
+                      {
+                        type: 'bar',
+                        data: leg_store.map((x)=>x.count)
+                      }
+                    ]
+                  };
+                  
+                  var option_leg_usage_bar = {
+                    title: {
+                      text: 'leg_usage'
+                    },
+                    tooltip: {},
+                    xAxis: {
+                      data: leg_usage.map((x)=>x.name)
+                    },
+                    yAxis: {},
+                    series: [
+                      {
+                        type: 'bar',
+                        data: leg_usage.map((x)=>x.count)
+                      }
+                    ]
+                  };
+                  
+                  gut_store_bar.setOption(option_gut_store_bar);
+                  gut_usage_bar.setOption(option_gut_usage_bar);
+                  headchest_store_bar.setOption(option_headchest_store_bar);
+                  headchest_usage_bar.setOption(option_headchest_usage_bar);
+                  abdomen_store_bar.setOption(option_abdomen_store_bar);
+                  abdomen_usage_bar.setOption(option_abdomen_usage_bar);
+                  leg_store_bar.setOption(option_leg_store_bar);
+                  leg_usage_bar.setOption(option_leg_usage_bar);
+
+
+            }); // 这里是datatable filter响应结束的地方
+        });//这里是从jstree里取数据进行处理收尾的地方，包裹datatable
+    }); // 这里是jstree收尾的地方，包裹jstree初始化和jstree里取数据
+})// 这里是总的script收尾的地方
+</script>
+
+
+{% endblock %}

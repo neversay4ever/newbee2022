@@ -1,0 +1,27 @@
+django==3.2
+django-import-export
+django-extensions
+django-filter
+django-crispy-forms
+Pillow
+django-select2
+django-datatables-view
+django-extensions
+django-crispy-forms
+django-widget-tweaks
+django-filter
+django-rest-framework
+django-tables2
+djangorestframework-datatables
+django-htmx
+django-autocomplete-light
+djhacker
+django-admin-list-filter-dropdown
+django-admin-autocomplete-filter
+django-admin-rangefilter
+django-json-widget
+#be careful, not django-datatable-view, this is different
+#https://bitbucket.org/pigletto/django-datatables-view/src/master/
+wagtail==2.16.2
+wagtailsvg
+sweetify
