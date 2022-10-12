@@ -1,0 +1,241 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{%block extra_css%}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<style>
+    table td{
+        word-break:break-all;
+        }
+</style>
+{%endblock extra_css %}
+
+{% block extra_content %}
+
+<div class="mx-4 px-4">
+    <h4 class='py-2'>菌株——总表</h4>
+    <div class="row mx-lg-n5 px-4" style='overflow-x: auto'>
+        <table class="table" id="strain_all_table"  width="90%">
+        <thead id="main-header">
+            <tr>
+                <th>菌株编号</th>
+                <th>蜜蜂宿主物种</th>
+                <th>采集地简要信息</th>
+                <th>蜜蜂宿主样本编号</th>
+                <th>肠道样本编号</th>
+
+                <th>菌门</th>
+                <th>菌纲</th>
+                <th>菌目</th>
+                <th>菌科</th>
+                <th>菌属</th>
+                <th>菌种</th>
+
+                <th>16S测序质量</th>
+                <th>16S比对到的序列</th>
+                <th>16S比对相似度</th>
+                <th>16S比对网站</th>
+                <th>16S序列存储位置</th>
+                <th>16S比对人员</th>
+
+                <th>是否检测细菌基因组</th>
+                <th>细菌基因组测序编号</th>
+                <th>细菌基因组序列在服务器中的存储位置</th>
+                <th>细菌基因组上传NCBI的accession号</th>
+
+                <th>分离株编号</th>
+                <th>菌株分离培养基</th>
+                <th>菌株分离培养类型</th>
+                <th>菌株分离培养温度</th>
+                <th>菌株分离培养时间</th>
+                <th>分离株表型</th>
+                <th>菌株分离培养人员</th>
+                <th>菌株分离培养记录人员</th>
+                <th>菌株分离培养记录时间</th>
+
+                <th>菌株存储盒子编号</th>
+                <th>菌株储存液</th>
+                <th>菌株储存温度</th>
+                <th>菌株储存地点</th>
+                <th>菌株储存时间</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for s in  strain_all %}
+        <tr>
+            <td>{{s.strain_id}}</td>
+            <td>{{ s.bee_host_species}}</td>
+            <td>{{s.exact_site}}</td>
+            <td>{{ s.bee_host_id}}</td>
+            <td>{{s.gut_id}}</td>
+
+            <td>{{s.strain_phylum}}</td>
+            <td>{{ s.strain_class}}</td>
+            <td>{{s.strain_order}}</td>
+            <td>{{ s.strain_family}}</td>
+            <td>{{s.strain_genus}}</td>
+            <td>{{s.strain_species}}</td>
+
+            <td>{{ s.ab1_quality_16s}}</td>
+            <td>{{s.mapped_sequence_16s}}</td>
+            <td>{{ s.similarity_16s}}</td>
+            <td>{{s.blast_website_16s}}</td>
+            <td>{{s.data_file_path_16s}}</td>
+            <td>{{ s.blast_by_who_16s}}</td>
+
+            <td>{{s.strain_genome_sequence}}</td>
+            <td>{{ s.strain_genome_seq_id}}</td>
+            <td>{{s.strain_genome_server_site}}</td>
+            <td>{{s.strain_genome_server_site}}</td>
+
+            <td>{{ s.isolation_id}}</td>
+            <td>{{s.isolation_media}}</td>
+            <td>{{ s.isolation_culture_type}}</td>
+            <td>{{s.isolation_culture_temperature}}</td>
+            <td>{{s.isolation_culture_time_hour}}</td>
+            <td>{{ s.isolation_phenotype}}</td>
+            <td>{{s.isolate_by_who}}</td>
+            <td>{{s.isolation_record_by_who}}</td>
+            <td>{{ s.isolation_record_date}}</td>
+    
+            <td>{{ s.strain_storage_box_id}}</td>
+            <td>{{s.strain_storage_solution}}</td>
+            <td>{{ s.strain_storage_temperature_centigrade}}</td>
+            <td>{{s.strain_storage_location}}</td>
+            <td>{{ s.strain_storage_date}}</td>
+            </tr>
+        </tbody>
+        {% endfor %}
+        <tfoot id='main-footer'>
+            <tr>
+            <th>strain_id</th>
+            <th>bee_host_species</th>
+            <th>exact_site</th>
+            <th>bee_host_id</th>
+            <th>gut_id</th>
+
+            <th>strain_phylum</th>
+            <th>strain_class</th>
+            <th>strain_order</th>
+            <th>strain_family</th>
+            <th>strain_genus</th>
+            <th>strain_species</th>
+
+            <th>ab1_quality_16s</th>
+            <th>mapped_sequence_16s</th>
+            <th>similarity_16s</th>
+            <th>blast_website_16s</th>
+            <th>data_file_path_16s</th>
+            <th>blast_by_who_16s</th>
+
+            <th>strain_genome_sequence</th>
+            <th>strain_genome_seq_id</th>
+            <th>strain_genome_server_site</th>
+            <th>strain_genome_server_site</th>
+
+            <th>isolation_id</th>
+            <th>isolation_media</th>
+            <th>isolation_culture_type</th>
+            <th>isolation_culture_temperature</th>
+            <th>isolation_culture_time_hour</th>
+            <th>isolation_phenotype</th>
+            <th>isolate_by_who</th>
+            <th>isolation_record_by_who</th>
+            <th>isolation_record_date</th>
+
+            <th>strain_storage_box_id</th>
+            <th>strain_storage_solution</th>
+            <th>strain_storage_temperature_centigrade</th>
+            <th>strain_storage_location</th>
+            <th>strain_storage_date</th>
+            </tr>
+        </tfoot>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+    {%block extra_js%}
+<!-- 百度 -->
+<script src="http://api.map.baidu.com/api?v=2.0&ak=aQHQI6ayhXfuRjIC7A5PCDaN50FZ0zON"></script>
+<!-- echarts -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<!-- 扩展地图插件 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/extension/bmap.min.js"></script>
+
+<!-- jsTree/jQuery -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
+ <script src=" https://cdn.datatables.net/fixedcolumns/4.0.1/js/dataTables.fixedColumns.min.js "></script>
+
+<link rel="stylesheet" href=" https://cdn.datatables.net/fixedcolumns/4.0.1/css/fixedColumns.dataTables.min.css" />
+
+
+ <script>
+      // 设置strain_all_table
+    $('#strain_all_table tfoot th').each(function () {
+        var title = $(this).text();
+        $(this).html('<input class="form-control" type="text" placeholder="Search ' + title + '" />');
+    });
+
+    var table = $('#strain_all_table').DataTable()
+    table.destroy()     // this is for redraw datatable
+
+    var table = $('#strain_all_table').DataTable({
+        "scrollX":true,
+        "autoWidth": false,
+        "fixedColumns": true,
+        "retrieve":true,    // this is for redraw datatable
+        "columnDefs": [
+                        { width: "10%", targets: [0,1] },
+                        {orderable: true,},
+                        {defaultContent: "-",targets: "_all"},    // defaultContent is important
+                        {
+                            "targets": 0,
+                            "data": 0,
+                            "render": function ( data, type, full, meta ) {
+                            return '<a href="'+data+'">'+data+'</a>';
+                            }
+                        }
+                        ],     
+        "dom":'Bfrtip',
+        "paging": true,
+        initComplete: function(){
+            // 设置datatable的每一列的搜索功能
+            this.api()
+            .columns([1,2,5,6,7,8,9,10])
+            .every(function () {
+                var that = this;
+                $('input', this.footer()).on('keyup change clear', function () {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+
+                var column = this;
+                var select = $('<select class="form-control" placeholder="Search ' + this.value + '"><option value=""></option></select>')
+                    .appendTo($(column.footer()).empty())
+                    .on('change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                    });
+
+                column
+                    .data()
+                    .unique()
+                    .sort()
+                    .each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>');
+                    });
+            });
+            }, // end of initComplete
+    });    // 设置strain_all_table 结束
+
+
+</script>
+
+
+{% endblock %}

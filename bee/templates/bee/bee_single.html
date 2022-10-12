@@ -5,7 +5,133 @@
 {% block content %}
 
     {% for bee in samples %}
-    <h4>{{bee.country}} </h4>
+    <div class="row mx-lg-n5">
+        <div class="col-6 py-3 px-lg-5 border bg-light" >
+            <h3>地里位置</h3>
+            <h5>采集地简要信息: {{bee.exact_site}}</h5>
+            <h6>采集地备注:  {{bee.geo_notes}}</h6>
+            <div class="row mx-lg-n5">
+                <div class="col-6 py-3 px-lg-5  bg-light" >
+                <p>大洲：{{bee.continent_ocean}} </p>
+                <p>国家：{{bee.country}} </p>
+                <p>省/州：{{bee.state_province}} </p>
+                <p>城市：{{bee.city}} </p>
+                <p>县：{{bee.county}} </p>
+                <p>乡镇：{{bee.town}} </p>
+                <p>村：{{bee.village}} </p>
+                </div>
+                <div class="col-6 py-3 px-lg-5  bg-light" >
+                <p>维度：{{bee.latitude}} </p>
+                <p>经度：{{bee.longitude}} </p>
+                <p>海拔：{{bee.altitude}} </p>
+                <p>村：{{bee.village}} </p>
+                <p>采集人：{{bee.collector_name}} </p>
+                <p>采集日期：{{bee.collection_date}} </p>
+                </div>
+            </div>
+
+            <h3>标本信息</h3>
+            <h6>样本备注:  {{bee.sample_notes}}</h6>
+            <div class="row mx-lg-n5">
+                <div class="col-6 py-3 px-lg-5  bg-light" >
+                <p>同管个体数目：{{bee.multi_num}} </p>
+                <p>级型：{{bee.caste_type}} </p>
+                <p>分工：{{bee.labor_division}} </p>
+                <p>饲养方式：{{bee.life_style}} </p>
+                <p>生活史：{{bee.life_stage}} </p>
+                <p>养蜂人:{{bee.beekeeper}} </p>
+                <p>蜂场编号：{{bee.apiary_id}} </p>
+                <p>蜂箱编号: {{bee.hive_id}} </p>
+                <p>蜂群来源：{{bee.host_origin}} </p>
+                <p>蜂群保有年限：{{bee.hive_year}} </p>
+                </div>
+                <div class="col-6 py-3 px-lg-5  bg-light" >
+                <p>年取蜜频次：{{bee.decapping_freq}} </p>
+                <p>是否喂食花粉蔗糖：{{bee.feeding_or_not}} </p>
+                <p>喂食细节: {{bee.feeding_description}}</p>
+                <p>生境类型：{{bee.habitat_type}} </p>
+                <p>是否用药：{{bee.pesticide_or_not}} </p>
+                <p>用药细节：{{bee.pesticide_detail}} </p>
+                <p>蜜粉源植物：{{bee.flower_species}} </p>
+                <p>记录人：{{bee.record_by_who}} </p>
+                <p>记录日期：{{bee.record_datetime}} </p>
+                </div>
+                <div class='col-12 pl-20'>
+                <p> 生境照片存储位置：</p>
+                <p>{{bee.habitat_photo_file_path}} </p>
+                <p> 蜜粉源植物照片存储位置：</p>
+                <p>{{bee.flower_photo_file_path}} </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 py-3 px-lg-5 border bg-light">
+            <h3>进化分类</h3>
+            <div class="row mx-lg-n5">
+                <div class="col-6 py-3 px-lg-5  bg-light" >
+                    <p>门：{{bee.sample_phylum}} </p>
+                    <p>纲：{{bee.sample_class}} </p>
+                    <p>目：{{bee.sample_order}} </p>
+                    <p>科：{{bee.sample_family}} </p>
+                    <p>属：{{bee.sample_genus}} </p>
+                    <p>种：{{bee.sample_species}} </p>
+                    <p>亚种：{{bee.sample_subspecies}} </p>
+                    <p>品种：{{bee.sample_breed}} </p>
+                </div>
+                <div class="col-6 py-3 px-lg-5  bg-light" >
+                    <p>鉴定人：{{bee.identifier_name}} </p>
+                    <p>鉴定人邮箱：{{bee.identifier_email}} </p>
+                    <p>鉴定人单位：{{bee.identifier_institution}} </p>
+                    <p>是否有条形码：{{bee.barcode_result}} </p>
+                </div>
+            </div>
+
+            <h3>组织存储</h3>
+            <div class="row mx-lg-n5">
+                <div class="col-6 py-3 px-lg-5  bg-light" >
+                    <h5>头胸组织存储</h3>
+                    <p>头胸组织编号：{{bee.headthorax_id}} </p>
+                    <p>头胸组织保存方法：{{bee.headthorax_preservation}} </p>
+                    <p>头胸用途：{{bee.headthorax_usage}} </p>
+                    <p>解剖状态：{{bee.thorax_dessection}} </p>
+                    <p>头胸组织盒编号：{{bee.headthorax_box_id}} </p>
+                    <p>头胸组织存储位置：{{bee.headthorax_storage_location}} </p>
+                </div>
+                <div class="col-6 py-3 px-lg-5  bg-light" >
+                    <h5>腹部组织存储</h3>
+                    <p>腹部组织编号：{{bee.abdomen_id}} </p>
+                    <p>腹部组织保存方法：{{bee.abdomen_preservation}} </p>
+                    <p>腹部用途：{{bee.abdomen_usage}} </p>
+                    <p>腹部解剖状态：{{bee.abdomen_dissection_state}} </p>
+                    <p>腹部组织盒编号：{{bee.abdomen_box_id}} </p>
+                    <p>腹部组织存储位置：{{bee.abdomen_storage_location}} </p>
+                </div>
+            </div>
+            <div class="row mx-lg-n5">
+                <div class="col-6 py-3 px-lg-5  bg-light" >
+                    <h5>肠道组织存储</h3>
+                    <p>肠道组织编号：{{bee.gut_id}} </p>
+                    <p>肠道组织保存方法：{{bee.gut_storage}} </p>
+                    <p>肠道用途：{{bee.gut_usage}} </p>
+                    <p>肠道解剖状态：{{bee.gut_dissection_state}} </p>
+                    <p>肠道组织盒编号：{{bee.gut_box_id}} </p>
+                    <p>肠道组织存储位置：{{bee.gut_storage_location}} </p>
+                </div>
+                <div class="col-6 py-3 px-lg-5  bg-light" >
+                    <h5>足组织存储</h3>
+                    <p>足组织编号：{{bee.leg_id}} </p>
+                    <p>足组织保存方法：{{bee.leg_storage}} </p>
+                    <p>足用途：{{bee.leg_usage}} </p>
+                    <p>足解剖状态：{{bee.leg_dissection_state}} </p>
+                    <p>足组织盒编号：{{bee.leg_box_id}} </p>
+                    <p>足组织存储位置：{{bee.leg_storage_location}} </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 
 
     {% endfor %}
