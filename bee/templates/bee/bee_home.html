@@ -5,71 +5,98 @@
 
 {%block extra_css%}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
 <style>
-  #datatable-sample tbody > tr > td {
-    white-space: nowrap;
-    }
+  # sidebar {
+    min-width: 500px;
+    max-width: 500px;
+    background: #fff;
+    color: #fff;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s; 
+   }
+  
+   #sidebar.active {
+      margin-left: -500px; 
+   }
+    
+ 
 </style>
 {%endblock extra_css %}
 
 {% block extra_content %}
-<div class="mx-4 px-4">
-    <div class="">
-        <div class="row mx-lg-n5">
-            <div class="col-4 py-3 px-lg-5 border bg-light" >
-                <input type="text" id="jstree_example_q" value="" class="input " style="margin:1em 1em 1em auto; display:block; padding:4px; border-radius:4px; border:1px solid silver;" />
-                <div id="jstree_example">Tree</div>
-            </div>
-
-            <div class="col-8 py-3 px-lg-5 border bg-light">
-
-              <div id="bmap" class="bmap"  style="width: 750px;height:400px;"><p>地图</p></div>
-
-                <div class='py-4'>
-                    <table class="table" id="datatable-sample"  width="100%">
-                    <thead id="main-header">
-                        <tr>
-                            {% for field in sample_demo %}
-                                {% if field != 'id'%}
-                                <th >{{field}}</th>
-                                {%endif%}
-                            {%endfor%}
-                        </tr>
-                    </thead>
-                    <tfoot id='main-footer'>
-                        <tr>
-                            {% for field in sample_demo %}
-                                    {% if field != 'id'%}
-                                    <th >{{field}}</th>
-                                    {%endif%}
-                            {%endfor%}
-                        </tr>
-                    </tfoot>
-                    </table>
-                </div>
-
-
-                <div class='chart bar-chart'>
-                    <div class="row">
-                        <div id='gut_store_bar' data-chart='' class='col-3' style="width: 500px;height:200px;" ></div> 
-                        <div id='gut_usage_bar' class='col-3' style="width: 500px;height:200px;" ></div> 
-            
-                        <div id='headchest_store_bar' class='col-3' style="width: 500px;height:200px;" ></div> 
-                        <div id='headchest_usage_bar' class='col-3' style="width: 500px;height:200px;" ></div> 
-                    </div>
-                    <div class="row">
-                        <div id='abdomen_store_bar' class='col-3' style="width: 500px;height:200px;" ></div> 
-                        <div id='abdomen_usage_bar' class='col-3' style="width: 500px;height:200px;" ></div> 
-           
-                        <div id='leg_store_bar' class='col-3' style="width: 500px;height:200px;" ></div> 
-                        <div id='leg_usage_bar' class='col-3' style="width: 500px;height:200px;" ></div> 
-                    </div>
-                </div>
-
-            </div>
-        </div>
+<div class="wrapper d-flex align-items-stretch">
+  <nav id="sidebar">
+    <div class="pt-5" id='jstree_div'>
+      <input type="text" id="jstree_example_q" value="" class="input " style="margin:1em 1em 1em auto; display:block; padding:4px; border-radius:4px; border:1px solid silver;" />
+      <div id="jstree_example">Tree</div>  
     </div>
+  </nav>
+
+    <!-- Page Content  -->
+  <div id="content" class="p-md-5 container-fluid" style='width:100%'>
+    <button type="button" id="sidebarCollapse" class="btn btn-warning py-2">
+      <span >Toggle Tree</span>
+    </button>
+    <button type="button" id="bmapCollapse" class="btn btn-success py-2">
+      <span >Toggle Map</span>
+    </button>
+    <button type="button" id="statCollapse" class="btn btn-info py-2">
+      <span >Toggle Stat</span>
+    </button>
+
+      <div id="bmap" class="bmap py-2"  style="width: 1000px;height:550px;"></div>
+
+      <div class='chart pt-5 bar-chart' id='stat' width="90%">
+        <div class="row">
+            <div id='gut_store_bar' data-chart='' class='col-3' style="width: 500px;height:200px;" ></div> 
+            <div id='gut_usage_bar' class='col-3' style="width: 500px;height:200px;" ></div> 
+
+            <div id='headchest_store_bar' class='col-3' style="width: 500px;height:200px;" ></div> 
+            <div id='headchest_usage_bar' class='col-3' style="width: 500px;height:200px;" ></div> 
+        </div>
+        <div class="row">
+            <div id='abdomen_store_bar' class='col-3' style="width: 500px;height:200px;" ></div> 
+            <div id='abdomen_usage_bar' class='col-3' style="width: 500px;height:200px;" ></div> 
+
+            <div id='leg_store_bar' class='col-3' style="width: 500px;height:200px;" ></div> 
+            <div id='leg_usage_bar' class='col-3' style="width: 500px;height:200px;" ></div> 
+        </div>
+      </div>
+
+      <div class='py-4' width="90%">
+        <table class="table compact" id="datatable-sample" style='white-space: nowrap'  >
+        <thead id="main-header">
+            <tr>
+                {% for field in sample_demo %}
+                    {% if field != 'id'%}
+                    <th >{{field}}</th>
+                    {%endif%}
+                {%endfor%}
+            </tr>
+        </thead>
+        <tfoot id='main-footer'>
+            <tr>
+                {% for field in sample_demo %}
+                        {% if field != 'id'%}
+                        <th >{{field}}</th>
+                        {%endif%}
+                {%endfor%}
+            </tr>
+        </tfoot>
+        </table>
+      </div>
+
+
+
+  </div>
 </div>
+
+
+
+ 
+
 {% endblock %}
 
     {%block extra_js%}
@@ -87,6 +114,13 @@
 
 <link rel="stylesheet" href=" https://cdn.datatables.net/fixedcolumns/4.0.1/css/fixedColumns.dataTables.min.css" />
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sidebar/3.3.2/jquery.sidebar.min.js"></script>
+
+<script src="https://cdn.datatables.net/searchpanes/2.0.2/js/dataTables.searchPanes.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sidebar/3.3.2/jquery.sidebar.min.js"></script>
+
 
  <script>
 
@@ -96,7 +130,21 @@
 // jstree options 
 
 
+
 $(function() {
+
+  $('#sidebarCollapse').on('click', function () {
+    $('#sidebar').toggle('active');
+  });
+
+  $('#bmapCollapse').on('click', function () {
+    $('#bmap').toggle();
+  });
+
+  $('#statCollapse').on('click', function () {
+    $('#stat').toggle();
+  });
+
   var myChart = echarts.init(document.getElementById('bmap'))
   option_baidu_init = {
     title: {
@@ -173,12 +221,14 @@ $(function() {
 
   var bee_all = {{bee_all|safe}}
 
+
   $('#jstree_example').jstree({  
         "plugins" : [ 
-            "search"
+            "search",
+           
                     ],
         'core' : {  
-            'data' : {{data|safe}}
+            'data' : {{data|safe}},
                 }    
     });
             
@@ -219,6 +269,7 @@ $(function() {
             });
 
             var table = $('#datatable-sample').DataTable()
+            
             table.destroy()     // this is for redraw datatable
             
             var table = $('#datatable-sample').DataTable({
@@ -239,8 +290,7 @@ $(function() {
                                   }
                                 }
                                 ],
-                            
-                "dom":'Bfrtip',
+                "dom":'BfrtipP',
                 "data" : data_selected_sample,
                 "paging": true,
                 initComplete: function(){

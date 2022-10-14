@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+
+
+{% block extra_content %}
+<div class='container'>  
+    <div class="jumbotron">
+    <h1 class="display-4">蜜蜂数据库</h1>
+    <p class="lead">This is a simple description</p>
+    <hr class="my-4">
+    <p>Click data to enter admin and manage data</p>
+    <a class="btn btn-primary btn-lg" href="/bee" role="button">进入蜜蜂世界</a>
+  </div>
+</div>
+{%endblock extra_content%}

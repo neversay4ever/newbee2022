@@ -14,10 +14,10 @@
 
 {% block extra_content %}
 
-<div class="mx-4 px-4">
+<div class="mx-4 px-4 container-fluid">
     <h4 class='py-2'>菌株——总表</h4>
-    <div class="row mx-lg-n5 px-4" style='overflow-x: auto'>
-        <table class="table" id="strain_all_table"  width="90%">
+    <div class="" width="90%">
+        <table class="table compact" id="strain_all_table" >
         <thead id="main-header">
             <tr>
                 <th>菌株编号</th>
@@ -190,6 +190,7 @@
         "retrieve":true,    // this is for redraw datatable
         "columnDefs": [
                         { width: "10%", targets: [0,1] },
+                        {className: 'dt-body-nowrap' },
                         {orderable: true,},
                         {defaultContent: "-",targets: "_all"},    // defaultContent is important
                         {
@@ -200,7 +201,7 @@
                             }
                         }
                         ],     
-        "dom":'Bfrtip',
+        "dom":'BQfrtip',
         "paging": true,
         initComplete: function(){
             // 设置datatable的每一列的搜索功能

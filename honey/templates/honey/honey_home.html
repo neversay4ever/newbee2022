@@ -13,7 +13,7 @@
 {%endblock extra_css %}
 
 {% block extra_content %}
-<div class="mx-4 px-4">
+<div class="mx-4 px-4 container">
     <h4 class='py-2'>蜂蜜_采集人信息</h4>
     <div class="row mx-lg-n5 px-4">
         <table class="table" id="honey_collector_table"  width="100%">
@@ -215,6 +215,7 @@
 
 
  <script>
+$(function() {
     // 设置honey_collector_table
     $('#honey_collector_table tfoot th').each(function () {
         var title = $(this).text();
@@ -454,6 +455,8 @@
             });
             }, // end of initComplete
     });    // 设置honey_sample_table 结束
+
+}); // 这里是$(function(){ })的结束
 </script>
 
 

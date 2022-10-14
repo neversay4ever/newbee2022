@@ -22,14 +22,17 @@ from django.contrib import admin
 
 admin.site.site_header = 'Bee&Honey&Strain管理系统'
 
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', TemplateView.as_view(template_name="home.html")),
     path('bee/', bee_views.bee_home, name='bee_home'),
     path('bee/<str:sample_id>', bee_views.bee_single, name='bee_single'),
     path('sample_json/<str:data_string>', bee_views.getBeeJsonFromJstree, name='bee_selected_json'),
     path('honey/', honey_views.honey_home, name='honey_home'),
     path('strain/', strain_views.strain_home, name='strain_home'),
+    path('strain/<str:strain_id>', strain_views.strain_single, name='strain_single'),
 
 ]
 from django.conf import settings

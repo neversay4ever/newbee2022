@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+    {% for strain in strains %}
+    <div class="row mx-lg-n5">
+        <div class="col-6 py-3 px-lg-5 border bg-light" >
+            <h3>菌株来源及比对信息</h3>
+            <h5>蜜蜂宿主物种: {{strain.bee_host_species}}</h5>
+            <h6>采集地简要信息:  {{strain.exact_site}}</h6>
+            <h6>蜜蜂宿主样本编号:  {{strain.bee_host_id}}</h6>
+            <h6>肠道样本编号:  {{strain.gut_id}}</h6>
+            <div class="row mx-lg-n5">
+                <div class="col-6 py-3 px-lg-5  bg-light" >
+                    <p>16S测序质量:  {{strain.ab1_quality_16s}}</p>
+                    <p>16S比对到的序列：{{strain.similarity_16s}} </p>
+                    <p>16S比对相似度：{{strain.similarity_16s}} </p>
+                    <p>16S比对网站：{{strain.blast_website_16s}} </p>
+                    <p>16S序列存储位置：{{strain.data_file_path_16s}} </p>
+                    <p>16S比对人员：{{strain.blast_by_who_16s}} </p>
+                </div>
+                <div class="col-6 py-3 px-lg-5  bg-light" >
+                    <p>是否检测细菌基因组：{{strain.strain_genome_sequence}} </p>
+                    <p>细菌基因组测序编号：{{strain.strain_genome_seq_id}} </p>
+                    <p>细菌基因组序列在服务器中的存储位置：{{strain.strain_genome_server_site}} </p>
+                    <p>细菌基因组上传NCBI的accession号：{{strain.strain_NCBI_accession}} </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-6 py-3 px-lg-5 border bg-light" >
+            <h3>分离和存储信息</h3>
+            <h5>分离株编号:  {{strain.isolation_id}}</h6>
+            <div class="row mx-lg-n5">
+                <div class="col-6 py-3 px-lg-5  bg-light" >
+                    <p>菌株分离培养基：{{strain.isolation_media}} </p>
+                    <p>菌株分离培养类型：{{strain.isolation_culture_type}} </p>
+                    <p>菌株分离培养温度: {{strain.isolation_culture_temperature}}</p>
+                    <p>菌株分离培养时间：{{strain.isolation_culture_time_hour}} </p>
+                    <p>分离株表型：{{strain.isolation_phenotype}} </p>
+                    <p>菌株分离培养人员：{{strain.isolate_by_who}} </p>
+                    <p>菌株分离培养记录人员：{{strain.isolation_record_by_who}} </p>
+                    <p>菌株分离培养记录时间：{{strain.isolation_record_date}} </p>
+                </div>
+                <div class="col-6 py-3 px-lg-5  bg-light" >
+                    <p>菌株存储盒子编号：{{strain.strain_storage_box_id}} </p>
+                    <p>菌株储存液：{{strain.strain_storage_solution}} </p>
+                    <p>菌株储存温度: {{strain.strain_storage_temperature_centigrade}}</p>
+                    <p>菌株储存地点：{{strain.strain_storage_location}} </p>
+                    <p>菌株储存时间：{{strain.strain_storage_date}} </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    {% endfor %}
+
+{%endblock%}
