@@ -199,8 +199,8 @@ def bee_single(request, sample_id):
     # breed_ids = f'{phylum_data}:{class_data}:{order_data}:{family_data}:{genus_data}:{species_data}:{subspecies_data}:{breed_data}'
     # Euarthropoda:Insecta:Hymenoptera:Apidae:Apis:Apis cerana:Apis cerana cerana:北方中蜂-Euarthropoda:Insecta:Hymenoptera:Apidae:Apis:Apis cerana:Apis cerana cerana:海南中蜂
     sample = BeeAll.objects.filter(sample_id=sample_id)
-    print(sample)
-    return render(request, 'bee/bee_single.html', {'samples': sample})
+    sample_data = serializers.serialize('json', sample)    
+    return render(request, 'bee/bee_single.html', {'samples': sample, 'sample_data':sample_data})
 
 from .models import CollectionData, Taxonomy, SpecimenDetails, HeadthoraxStorage,AbdomenStorage,GutStorage,LegStorage,BeeAll
 def bee_data_combine(request):

@@ -65,7 +65,13 @@
         <tbody>
         {% for s in  strain_all %}
         <tr>
-            <td>{{s.strain_id}}</td>
+            <td>
+                <a href="/strain/{{s.strain_id}}">
+                    <div style="height:100%;width:100%">
+                        {{s.strain_id}}
+                    </div>
+                  </a>
+                </td>
             <td>{{ s.bee_host_species}}</td>
             <td>{{s.exact_site}}</td>
             <td>{{ s.bee_host_id}}</td>
@@ -189,18 +195,10 @@
         "fixedColumns": true,
         "retrieve":true,    // this is for redraw datatable
         "columnDefs": [
-                        { width: "10%", targets: [0,1] },
-                        {className: 'dt-body-nowrap' },
-                        {orderable: true,},
-                        {defaultContent: "-",targets: "_all"},    // defaultContent is important
-                        {
-                            "targets": 0,
-                            "data": 0,
-                            "render": function ( data, type, full, meta ) {
-                            return '<a href="'+data+'">'+data+'</a>';
-                            }
-                        }
-                        ],     
+            { width: "5%", targets: [0,1] },
+            {orderable: true,},
+            {defaultContent: "-",targets: "_all"},    // defaultContent is important
+        ],  
         "dom":'BQfrtip',
         "paging": true,
         initComplete: function(){

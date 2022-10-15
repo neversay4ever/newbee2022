@@ -31,7 +31,9 @@ urlpatterns = [
     path('bee_data_combine', bee_views.bee_data_combine, name='bee_data_combine'),
     path('bee/<str:sample_id>', bee_views.bee_single, name='bee_single'),
     path('sample_json/<str:data_string>', bee_views.getBeeJsonFromJstree, name='bee_selected_json'),
+
     path('honey/', honey_views.honey_home, name='honey_home'),
+    
     path('strain/', strain_views.strain_home, name='strain_home'),
     path('strain_data_combine', strain_views.strain_data_combine, name='strain_data_combine'),
     path('strain/<str:strain_id>', strain_views.strain_single, name='strain_single'),

@@ -5,135 +5,228 @@
 {% block content %}
 
     {% for bee in samples %}
+    <h2 class='py-2 text-light bg-info text-center'>样本编号：{{bee.sample_id}}</h2>
     <div class="row mx-lg-n5">
-        <div class="col-6 py-3 px-lg-5 border bg-light" >
-            <h3>地里位置</h3>
-            <h5>采集地简要信息: {{bee.exact_site}}</h5>
-            <h6>采集地备注:  {{bee.geo_notes}}</h6>
+        <div class="col-7 py-3 px-lg-5  bg-white" >
+            <h4 class='py-2 text-light text-center bg-success'>地里位置</h4>
+            <h5 class='py-2'>采集地简要信息: <span class='text-info'><span class='text-info'>{{bee.exact_site}}</span></h5>
+            <p><small>采集人：<span class='text-info'>{{bee.collector_name}} </span></small><small class='px-4'> 采集日期：<span class='text-info'>{{bee.collection_date}}</span></small></p>
+            <p><small>采集地备注:  <span class='text-info'>{{bee.geo_notes}}</small></p>
             <div class="row mx-lg-n5">
-                <div class="col-6 py-3 px-lg-5  bg-light" >
-                <p>大洲：{{bee.continent_ocean}} </p>
-                <p>国家：{{bee.country}} </p>
-                <p>省/州：{{bee.state_province}} </p>
-                <p>城市：{{bee.city}} </p>
-                <p>县：{{bee.county}} </p>
-                <p>乡镇：{{bee.town}} </p>
-                <p>村：{{bee.village}} </p>
+                <div class="col-4 py-3 px-lg-5 bg-white" >
+                <p><small>大洲：<span class='text-info'><span class='text-info'>{{bee.continent_ocean}}</span></small></p>
+                <p><small>国家：<span class='text-info'>{{bee.country}}</span></small></p>
+                <p><small>省/州：<span class='text-info'>{{bee.state_province}}</span></small></p>
+                <p><small>城市：<span class='text-info'>{{bee.city}}</span></small></p>
+                <p><small>县：<span class='text-info'>{{bee.county}}</span></small></p>
+                <p><small>乡镇：<span class='text-info'>{{bee.town}}</span></small></p>
+                <p><small>村：<span class='text-info'>{{bee.village}}</span></small></p>
+                <p><small>纬度：<span class='text-info'>{{bee.latitude}}</span></small></p>
+                <p><small>经度：<span class='text-info'>{{bee.longitude}}</span></small></p>
+                <p><small>海拔：<span class='text-info'>{{bee.altitude}}</span></small></p>
                 </div>
-                <div class="col-6 py-3 px-lg-5  bg-light" >
-                <p>纬度：{{bee.latitude}} </p>
-                <p>经度：{{bee.longitude}} </p>
-                <p>海拔：{{bee.altitude}} </p>
-                <p>村：{{bee.village}} </p>
-                <p>采集人：{{bee.collector_name}} </p>
-                <p>采集日期：{{bee.collection_date}} </p>
+                <div class="col-8 py-3 pr-6 bg-white" id='bmap' style="width:300px;height:350px;">
                 </div>
             </div>
 
-            <h3>标本信息</h3>
-            <h6>样本备注:  {{bee.sample_notes}}</h6>
+            <h4 class='mt-8 py-2 text-dark text-center bg-success'>组织存储</h4>
             <div class="row mx-lg-n5">
-                <div class="col-6 py-3 px-lg-5  bg-light" >
-                <p>同管个体数目：{{bee.multi_num}} </p>
-                <p>级型：{{bee.caste_type}} </p>
-                <p>分工：{{bee.labor_division}} </p>
-                <p>饲养方式：{{bee.life_style}} </p>
-                <p>生活史：{{bee.life_stage}} </p>
-                <p>养蜂人:{{bee.beekeeper}} </p>
-                <p>蜂场编号：{{bee.apiary_id}} </p>
-                <p>蜂箱编号: {{bee.hive_id}} </p>
-                <p>蜂群来源：{{bee.host_origin}} </p>
-                <p>蜂群保有年限：{{bee.hive_year}} </p>
+                <div class="col-6 py-3 px-lg-5  bg-white" >
+                    <h5 class='mt-8 py-2 text-light text-center bg-success'>头胸组织存储</h3>
+                    <p><small>头胸组织编号：<span class='text-info'>{{bee.headthorax_id}}</span></small></p>
+                    <p><small>头胸组织保存方法：<span class='text-info'>{{bee.headthorax_preservation}}</span></small></p>
+                    <p><small>头胸用途：<span class='text-info'>{{bee.headthorax_usage}}</span></small></p>
+                    <p><small>解剖状态：<span class='text-info'>{{bee.thorax_dessection}}</span></small></p>
+                    <p><small>头胸组织盒编号：<span class='text-info'>{{bee.headthorax_box_id}}</span></small></p>
+                    <p><small>头胸组织存储位置：<span class='text-info'>{{bee.headthorax_storage_location}}</span></small></p>
                 </div>
-                <div class="col-6 py-3 px-lg-5  bg-light" >
-                <p>年取蜜频次：{{bee.decapping_freq}} </p>
-                <p>是否喂食花粉蔗糖：{{bee.feeding_or_not}} </p>
-                <p>喂食细节: {{bee.feeding_description}}</p>
-                <p>生境类型：{{bee.habitat_type}} </p>
-                <p>是否用药：{{bee.pesticide_or_not}} </p>
-                <p>用药细节：{{bee.pesticide_detail}} </p>
-                <p>蜜粉源植物：{{bee.flower_species}} </p>
-                <p>记录人：{{bee.record_by_who}} </p>
-                <p>记录日期：{{bee.record_datetime}} </p>
-                </div>
-                <div class='col-12 pl-20'>
-                <p> 生境照片存储位置：</p>
-                <p>{{bee.habitat_photo_file_path}} </p>
-                <p> 蜜粉源植物照片存储位置：</p>
-                <p>{{bee.flower_photo_file_path}} </p>
+                <div class="col-6 py-3 px-lg-5  bg-white" >
+                    <h5 class='mt-8 py-2 text-light text-center bg-success'>腹部组织存储</h3>
+                    <p><small>腹部组织编号：<span class='text-info'>{{bee.abdomen_id}}</span></small></p>
+                    <p><small>腹部组织保存方法：<span class='text-info'>{{bee.abdomen_preservation}}</span></small></p>
+                    <p><small>腹部用途：<span class='text-info'>{{bee.abdomen_usage}}</span></small></p>
+                    <p><small>腹部解剖状态：<span class='text-info'>{{bee.abdomen_dissection_state}}</span></small></p>
+                    <p><small>腹部组织盒编号：<span class='text-info'>{{bee.abdomen_box_id}}</span></small></p>
+                    <p><small>腹部组织存储位置：<span class='text-info'>{{bee.abdomen_storage_location}}</span></small></p>
                 </div>
             </div>
+            <div class="row mx-lg-n5">
+                <div class="col-6 py-3 px-lg-5  bg-white" >
+                    <h5 class='mt-8 py-2 text-light text-center bg-success'>肠道组织存储</h3>
+                    <p><small>肠道组织编号：<span class='text-info'>{{bee.gut_id}}</span></small></p>
+                    <p><small>肠道组织保存方法：<span class='text-info'>{{bee.gut_storage}}</span></small></p>
+                    <p><small>肠道用途：<span class='text-info'>{{bee.gut_usage}}</span></small></p>
+                    <p><small>肠道解剖状态：<span class='text-info'>{{bee.gut_dissection_state}}</span></small></p>
+                    <p><small>肠道组织盒编号：<span class='text-info'>{{bee.gut_box_id}}</span></small></p>
+                    <p><small>肠道组织存储位置：<span class='text-info'>{{bee.gut_storage_location}}</span></small></p>
+                </div>
+                <div class="col-6 py-3 px-lg-5  bg-white" >
+                    <h5 class='mt-8 py-2 text-light text-center bg-success'>足组织存储</h3>
+                    <p><small>足组织编号：<span class='text-info'>{{bee.leg_id}}</span></small></p>
+                    <p><small>足组织保存方法：<span class='text-info'>{{bee.leg_storage}}</span></small></p>
+                    <p><small>足用途：<span class='text-info'>{{bee.leg_usage}}</span></small></p>
+                    <p><small>足解剖状态：<span class='text-info'>{{bee.leg_dissection_state}}</span></small></p>
+                    <p><small>足组织盒编号：<span class='text-info'>{{bee.leg_box_id}}</span></small></p>
+                    <p><small>足组织存储位置：<span class='text-info'>{{bee.leg_storage_location}}</span></small></p>
+                </div>
+            </div>
+
         </div>
 
-        <div class="col-6 py-3 px-lg-5 border bg-light">
-            <h3>进化分类</h3>
-            <div class="row mx-lg-n5">
-                <div class="col-6 py-3 px-lg-5  bg-light" >
-                    <p>门：{{bee.sample_phylum}} </p>
-                    <p>纲：{{bee.sample_class}} </p>
-                    <p>目：{{bee.sample_order}} </p>
-                    <p>科：{{bee.sample_family}} </p>
-                    <p>属：{{bee.sample_genus}} </p>
-                    <p>种：{{bee.sample_species}} </p>
-                    <p>亚种：{{bee.sample_subspecies}} </p>
-                    <p>品种：{{bee.sample_breed}} </p>
+        <div class="col-5 py-3 px-lg-5  bg-light">
+            <h4 class='py-2 text-light text-center bg-success'>进化分类</h4>
+            <p><small>鉴定人：<span class='text-info'>{{bee.identifier_name}}</span></small></p>
+            <p><small>鉴定人邮箱：<span class='text-info'>{{bee.identifier_email}}</span></small></p>
+            <p><small>鉴定人单位：<span class='text-info'>{{bee.identifier_institution}}</span></small></p>
+            <p><small>是否有条形码：<span class='text-info'>{{bee.barcode_result}}</span></small></p>
+            <div class="row px-2">
+                <div class="col-6 py-3 " >
+                    <p><small>门：<span class='text-info'>{{bee.sample_phylum}}</span></small></p>
+                    <p><small>纲：<span class='text-info'>{{bee.sample_class}}</span></small></p>
+                    <p><small>目：<span class='text-info'>{{bee.sample_order}}</span></small></p>
+                    <p><small>科：<span class='text-info'>{{bee.sample_family}}</span></small></p>
                 </div>
-                <div class="col-6 py-3 px-lg-5  bg-light" >
-                    <p>鉴定人：{{bee.identifier_name}} </p>
-                    <p>鉴定人邮箱：{{bee.identifier_email}} </p>
-                    <p>鉴定人单位：{{bee.identifier_institution}} </p>
-                    <p>是否有条形码：{{bee.barcode_result}} </p>
+                <div class="col-6 py-3 " >
+                    <p><small>属：<span class='text-info'>{{bee.sample_genus}}</span></small></p>
+                    <p><small>种：<span class='text-info'>{{bee.sample_species}}</span></small></p>
+                    <p><small>亚种：<span class='text-info'>{{bee.sample_subspecies}}</span></small></p>
+                    <p><small>品种：<span class='text-info'>{{bee.sample_breed}}</span></small></p>
                 </div>
             </div>
 
-            <h3>组织存储</h3>
+            <h4 class='mt-8 py-2 text-light text-center bg-success'>样本信息</h4>
+            <p><small>记录人：<span class='text-info'>{{bee.record_by_who}}</span></small><small class='px-4'>记录日期：<span class='text-info'>{{bee.record_datetime}}</span></small></p>
+            <p><small> 生境照片存储位置：<span class='text-info'>{{bee.habitat_photo_file_path}}</span></small></p>
+            <p><small> 蜜粉源植物照片存储位置：<span class='text-info'>{{bee.flower_photo_file_path}}</span></small></p>
+            <p><small>样本备注：<span class='text-info'>{{bee.sample_notes}}</span></small></p>
             <div class="row mx-lg-n5">
-                <div class="col-6 py-3 px-lg-5  bg-light" >
-                    <h5>头胸组织存储</h3>
-                    <p>头胸组织编号：{{bee.headthorax_id}} </p>
-                    <p>头胸组织保存方法：{{bee.headthorax_preservation}} </p>
-                    <p>头胸用途：{{bee.headthorax_usage}} </p>
-                    <p>解剖状态：{{bee.thorax_dessection}} </p>
-                    <p>头胸组织盒编号：{{bee.headthorax_box_id}} </p>
-                    <p>头胸组织存储位置：{{bee.headthorax_storage_location}} </p>
+                <div class="col-6 py-3 " >
+                    <p><small>同管个体数目：<span class='text-info'>{{bee.multi_num}}</span></small></p>
+                    <p><small>级型：<span class='text-info'>{{bee.caste_type}}</span></small></p>
+                    <p><small>分工：<span class='text-info'>{{bee.labor_division}}</span></small></p>
+                    <p><small>饲养方式：<span class='text-info'>{{bee.life_style}}</span></small></p>
+                    <p><small>生活史：<span class='text-info'>{{bee.life_stage}}</span></small></p>
+                    <p><small>养蜂人:<span class='text-info'>{{bee.beekeeper}}</span></small></p>
+                    <p><small>蜂场编号：<span class='text-info'>{{bee.apiary_id}}</span></small></p>
+                    <p><small>蜂箱编号: <span class='text-info'>{{bee.hive_id}}</span></small></p>
+                    <p><small>蜂群来源：<span class='text-info'>{{bee.host_origin}}</span></small></p>
                 </div>
-                <div class="col-6 py-3 px-lg-5  bg-light" >
-                    <h5>腹部组织存储</h3>
-                    <p>腹部组织编号：{{bee.abdomen_id}} </p>
-                    <p>腹部组织保存方法：{{bee.abdomen_preservation}} </p>
-                    <p>腹部用途：{{bee.abdomen_usage}} </p>
-                    <p>腹部解剖状态：{{bee.abdomen_dissection_state}} </p>
-                    <p>腹部组织盒编号：{{bee.abdomen_box_id}} </p>
-                    <p>腹部组织存储位置：{{bee.abdomen_storage_location}} </p>
+                <div class="col-6 py-3 " >
+                    <p><small>蜂群保有年限：<span class='text-info'>{{bee.hive_year}}</span></small></p>
+                    <p><small>年取蜜频次：<span class='text-info'>{{bee.decapping_freq}}</span></small></p>
+                    <p><small>是否喂食花粉蔗糖：<span class='text-info'>{{bee.feeding_or_not}}</span></small></p>
+                    <p><small>喂食细节: <span class='text-info'>{{bee.feeding_description}}</small></p>
+                    <p><small>生境类型：<span class='text-info'>{{bee.habitat_type}}</span></small></p>
+                    <p><small>是否用药：<span class='text-info'>{{bee.pesticide_or_not}}</span></small></p>
+                    <p><small>用药细节：<span class='text-info'>{{bee.pesticide_detail}}</span></small></p>
+                    <p><small>蜜粉源植物：<span class='text-info'>{{bee.flower_species}}</span></small></p>
                 </div>
             </div>
-            <div class="row mx-lg-n5">
-                <div class="col-6 py-3 px-lg-5  bg-light" >
-                    <h5>肠道组织存储</h3>
-                    <p>肠道组织编号：{{bee.gut_id}} </p>
-                    <p>肠道组织保存方法：{{bee.gut_storage}} </p>
-                    <p>肠道用途：{{bee.gut_usage}} </p>
-                    <p>肠道解剖状态：{{bee.gut_dissection_state}} </p>
-                    <p>肠道组织盒编号：{{bee.gut_box_id}} </p>
-                    <p>肠道组织存储位置：{{bee.gut_storage_location}} </p>
-                </div>
-                <div class="col-6 py-3 px-lg-5  bg-light" >
-                    <h5>足组织存储</h3>
-                    <p>足组织编号：{{bee.leg_id}} </p>
-                    <p>足组织保存方法：{{bee.leg_storage}} </p>
-                    <p>足用途：{{bee.leg_usage}} </p>
-                    <p>足解剖状态：{{bee.leg_dissection_state}} </p>
-                    <p>足组织盒编号：{{bee.leg_box_id}} </p>
-                    <p>足组织存储位置：{{bee.leg_storage_location}} </p>
-                </div>
-            </div>
+
         </div>
     </div>
-
-
-
-
-
     {% endfor %}
 
-{%endblock%}
+{%endblock content%}
+
+{%block extra_js%}
+<!-- 百度 -->
+<script src="http://api.map.baidu.com/api?v=2.0&ak=aQHQI6ayhXfuRjIC7A5PCDaN50FZ0zON"></script>
+<!-- echarts -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<!-- 扩展地图插件 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/extension/bmap.min.js"></script>
+
+<script>
+    var bee_sample= {{sample_data|safe}}[0]["fields"]
+
+$(function() {
+
+  var myChart = echarts.init(document.getElementById('bmap'))
+
+  option_baidu = {
+    title: {
+      text: bee_sample.sample_id,
+      subtext: '',
+      sublink: '',
+      left: 'center'
+    },
+    tooltip: {
+      trigger: 'item'
+    },
+    bmap: {
+      center: [bee_sample.longitude, bee_sample.latitude],
+      zoom: 7,
+      roam: true,// 允许缩放
+      mapStyle: {
+        styleJson: [
+          {
+            featureType: 'water',
+            elementType: 'all',
+            stylers: {
+              color: '#d1d1d1',
+              visibility: "on"
+            }
+          },
+          {
+            featureType: 'land',
+            elementType: 'all',
+            stylers: {
+              color: '#f3f3f3',
+              visibility: "on"
+            }
+          },
+          {
+            featureType: 'green',
+            elementType: 'all',
+            stylers: {
+              visibility: 'on'
+            }
+          },
+          // 边界线
+          {
+            featureType: 'boundary',
+            elementType: 'all',
+            stylers: {
+              color: '#fefefe',
+              visibility: "on"
+            }
+          },
+          // 行政标注
+          {
+            featureType: 'label',
+            elementType: 'all',
+            stylers: {
+              visibility: "on"
+            }
+          },
+          {
+            featureType: 'road',
+            elementType: 'all',
+            stylers: {
+              visibility: "off"
+            }
+          },
+
+        ]
+      }
+    },
+};
+
+console.log(bee_sample.longitude)
+
+myChart.setOption(option_baidu);
+var bmap = myChart.getModel().getComponent('bmap').getBMap(); // baidu地图实例
+bmap.addControl(new BMap.NavigationControl()); // 缩放控件
+bmap.addControl(new BMap.ScaleControl()); // 比例尺
+bmap.addControl(new BMap.MapTypeControl()); // 卫星图
+
+var point = new BMap.Point(bee_sample.longitude, bee_sample.latitude);
+
+var marker = new BMap.Marker(point);        // 创建标注 
+bmap.addOverlay(marker); 
+
+});
+</script>
+
+{% endblock extra_js %}
