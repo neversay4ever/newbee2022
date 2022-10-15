@@ -5,11 +5,11 @@
 {% block content %}
 
     {% for bee in samples %}
-    <h2 class='py-2 text-light bg-info text-center'>样本编号：{{bee.sample_id}}</h2>
+    <h4 class='py-2 text-light bg-info text-center'>样本编号：{{bee.sample_id}}</h4>
     <div class="row mx-lg-n5">
         <div class="col-7 py-3 px-lg-5  bg-white" >
-            <h4 class='py-2 text-light text-center bg-success'>地里位置</h4>
-            <h5 class='py-2'>采集地简要信息: <span class='text-info'><span class='text-info'>{{bee.exact_site}}</span></h5>
+            <h5 class='py-2 text-light text-center bg-success'>地里位置</h5>
+            <h6 class='py-2'>采集地简要信息: <span class='text-info'><span class='text-info'>{{bee.exact_site}}</span></h6>
             <p><small>采集人：<span class='text-info'>{{bee.collector_name}} </span></small><small class='px-4'> 采集日期：<span class='text-info'>{{bee.collection_date}}</span></small></p>
             <p><small>采集地备注:  <span class='text-info'>{{bee.geo_notes}}</small></p>
             <div class="row mx-lg-n5">
@@ -29,7 +29,7 @@
                 </div>
             </div>
 
-            <h4 class='mt-8 py-2 text-dark text-center bg-success'>组织存储</h4>
+            <h5 class='mt-8 py-2 text-dark text-center bg-success'>组织存储</h5>
             <div class="row mx-lg-n5">
                 <div class="col-6 py-3 px-lg-5  bg-white" >
                     <h5 class='mt-8 py-2 text-light text-center bg-success'>头胸组织存储</h3>
@@ -74,7 +74,7 @@
         </div>
 
         <div class="col-5 py-3 px-lg-5  bg-light">
-            <h4 class='py-2 text-light text-center bg-success'>进化分类</h4>
+            <h5 class='py-2 text-light text-center bg-success'>进化分类</h5>
             <p><small>鉴定人：<span class='text-info'>{{bee.identifier_name}}</span></small></p>
             <p><small>鉴定人邮箱：<span class='text-info'>{{bee.identifier_email}}</span></small></p>
             <p><small>鉴定人单位：<span class='text-info'>{{bee.identifier_institution}}</span></small></p>
@@ -94,7 +94,7 @@
                 </div>
             </div>
 
-            <h4 class='mt-8 py-2 text-light text-center bg-success'>样本信息</h4>
+            <h5 class='mt-8 py-2 text-light text-center bg-success'>样本信息</h5>
             <p><small>记录人：<span class='text-info'>{{bee.record_by_who}}</span></small><small class='px-4'>记录日期：<span class='text-info'>{{bee.record_datetime}}</span></small></p>
             <p><small> 生境照片存储位置：<span class='text-info'>{{bee.habitat_photo_file_path}}</span></small></p>
             <p><small> 蜜粉源植物照片存储位置：<span class='text-info'>{{bee.flower_photo_file_path}}</span></small></p>
