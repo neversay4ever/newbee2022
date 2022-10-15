@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.core import serializers
 
 from .models import HoneyCollector, HoneyIngredients, HoneyRefGenome, HoneySample
@@ -14,4 +14,6 @@ def honey_home(request):
                 'honey_refgenome':honey_refgenome,
                 'honey_sample':honey_sample,
                 })
+
+
 

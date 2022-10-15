@@ -12,7 +12,8 @@
     <p class="lead">This is a simple description</p>
     <hr class="my-4">
     <p>Click data to enter admin and manage data</p>
-    <a class="btn btn-primary btn-lg" href="/bee" role="button">进入蜜蜂世界</a>
+    <a class="btn btn-primary btn-lg" href="{% url 'bee_data_combine'%}" role="button" data-toggle="tooltip" data-placement="bottom" title="将🐝单表录入的数据整合到总表">整合蜜蜂数据</a>
+    <a class="btn btn-success btn-lg" href="{% url 'strain_data_combine'%}" role="button" data-toggle="tooltip" data-placement="bottom" title="将菌株单表录入的数据整合到总表">整合菌株数据</a>
   </div>
 </div>
 {%endblock extra_content%}
