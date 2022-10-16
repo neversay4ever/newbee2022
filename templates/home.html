@@ -9,9 +9,17 @@
 <div class='container'>  
     <div class="jumbotron">
     <h1 class="display-4">蜜蜂数据库</h1>
-    <p class="lead">This is a simple description</p>
+    <p class="lead text-success">注意：数据库程序里对日期的识别是基于字符串的，比如2018-06-24，
+        而在excel中它的值实际是43275，只是显示为2018-06-24这样的格式（可以在右键：设置单元格格式里调整），
+        因此载入到数据库中时会报错，解决方法是：
+        <ul class='list-group'>
+        <li class='list-group-item'> 1）如果已经填好了日期，用excel的TEXT函数进行转换，参考 <a href='https://exceljet.net/formula/convert-date-to-text' >此处 </a> </li>
+        <li class='list-group-item'>2）如果是新录入数据，预先在该列使用设置单元格格式，选“文本”格式</li>
+        </ul>
+    </p>
+    <small><a href='/bee'>蜜蜂的总表页面</a>载入较慢，但后续筛选过滤等操作无需更新网页，可实时查看</small>
     <hr class="my-4">
-    <p>Click data to enter admin and manage data</p>
+    <p>点击以下按钮将分表数据汇总到总表；如要录入和编辑数据，点击上方总菜单的 <a href='/admin'> Data </a> </p>
     <a class="btn btn-primary btn-lg" href="{% url 'bee_data_combine'%}" role="button" data-toggle="tooltip" data-placement="bottom" title="将🐝单表录入的数据整合到总表">整合蜜蜂数据</a>
     <a class="btn btn-success btn-lg" href="{% url 'strain_data_combine'%}" role="button" data-toggle="tooltip" data-placement="bottom" title="将菌株单表录入的数据整合到总表">整合菌株数据</a>
   </div>

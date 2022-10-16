@@ -34,8 +34,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'dal',
-    'dal_select2',
     'taggit',
     'modelcluster',
 
@@ -199,3 +197,8 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': lambda x: True,
 }
 
+from django.conf.global_settings import DATETIME_INPUT_FORMATS, DATE_INPUT_FORMATS
+
+DATETIME_INPUT_FORMATS += ('%Y-%m-%d %H:%M %p',)
+DATE_INPUT_FORMATS += ('%Y-%m-%d',)
+DATE_INPUT_FORMATS += ('%Y/%m/%d',)
